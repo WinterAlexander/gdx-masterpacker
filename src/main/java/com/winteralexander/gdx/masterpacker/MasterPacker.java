@@ -276,13 +276,17 @@ public class MasterPacker {
 
 		switch(textureType) {
 			case FLAT:
-				name = bundle.isShaded() ? "flat" : outDir.getName();
+				name = bundle.getAtlasName() != null
+					? bundle.isShaded() ? bundle.getAtlasName() + "_flat" : bundle.getAtlasName()
+					: bundle.isShaded() ? "flat" : outDir.getName();
 				break;
 			case NORMAL:
-				name = "normal";
+				name = bundle.getAtlasName() != null
+						? bundle.getAtlasName() + "_normal" : "normal";
 				break;
 			case PRESHADED:
-				name = "preshaded";
+				name = bundle.getAtlasName() != null
+						? bundle.getAtlasName() + "_preshaded" : "preshaded";
 				break;
 
 			default:
