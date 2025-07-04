@@ -38,8 +38,8 @@ public class MasterPackerFileProcessor extends TexturePackerFileProcessor {
 		this.inputDir = inputDir;
 	}
 
-	Array<TexturePacker.Rect> rects;
-	Array<TexturePacker.Page> pages;
+	Array<TexturePacker.Rect> rects = new Array<>();
+	Array<TexturePacker.Page> pages = new Array<>();
 
 	@Override
 	protected TexturePacker newTexturePacker(File root, TexturePacker.Settings settings) {
@@ -54,7 +54,7 @@ public class MasterPackerFileProcessor extends TexturePackerFileProcessor {
 		packer.setPacker(new TexturePacker.Packer() {
 			@Override
 			public Array<TexturePacker.Page> pack(Array<TexturePacker.Rect> array) {
-				rects = array;
+				rects.addAll(array);
 				pages = oldPacker.pack(array);
 				return pages;
 			}
@@ -62,7 +62,7 @@ public class MasterPackerFileProcessor extends TexturePackerFileProcessor {
 			@Override
 			public Array<TexturePacker.Page> pack(TexturePacker.ProgressListener progressListener,
 			                                      Array<TexturePacker.Rect> array) {
-				rects = array;
+				rects.addAll(array);
 				pages = oldPacker.pack(progressListener, array);
 				return pages;
 			}
