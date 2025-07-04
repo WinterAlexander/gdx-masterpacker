@@ -15,7 +15,7 @@ import static com.winteralexander.gdx.utils.collection.CollectionUtil.toArray;
  */
 public class AssetBundle {
 	private final String bundleId;
-	private final boolean shaded, square;
+	private final boolean shaded, square, grid;
 	private final float baseScale;
 	private final int paddingX, paddingY;
 	private final Texture.TextureFilter minFilter;
@@ -28,6 +28,7 @@ public class AssetBundle {
 	public AssetBundle(String bundleId,
 					   boolean shaded,
 					   boolean square,
+					   boolean grid,
 					   float baseScale,
 					   int paddingX,
 					   int paddingY,
@@ -44,6 +45,7 @@ public class AssetBundle {
 		this.bundleId = bundleId;
 		this.shaded = shaded;
 		this.square = square;
+		this.grid = grid;
 		this.baseScale = baseScale;
 		this.paddingX = paddingX;
 		this.paddingY = paddingY;
@@ -58,6 +60,7 @@ public class AssetBundle {
 	public AssetBundle(String bundleId,
 					   boolean shaded,
 					   boolean square,
+					   boolean grid,
 					   float baseScale,
 					   int paddingX,
 					   int paddingY,
@@ -70,6 +73,7 @@ public class AssetBundle {
 		this(bundleId,
 				shaded,
 				square,
+				grid,
 				baseScale,
 				paddingX,
 				paddingY,
@@ -91,6 +95,10 @@ public class AssetBundle {
 
 	public boolean isSquare() {
 		return square;
+	}
+
+	public boolean isGrid() {
+		return grid;
 	}
 
 	public Texture.TextureFilter getMinFilter() {

@@ -41,6 +41,7 @@ public class BundleList {
 						int paddingY = tryParseInt(getParamValue(parts, "--padding-y"), padding);
 						boolean shaded = tryParseBoolean(getParamValue(parts, "--shaded"), true);
 						boolean shrink = tryParseBoolean(getParamValue(parts, "--shrink"), false);
+						boolean grid = tryParseBoolean(getParamValue(parts, "--grid"), false);
 						String outResStr = getParamValue(parts, "--out-res");
 						String minFilterStr = getParamValue(parts, "--min-filter");
 						String magFilterStr = getParamValue(parts, "--mag-filter");
@@ -70,6 +71,7 @@ public class BundleList {
 						return new AssetBundle(partsWithoutParams[0],
 								shaded,
 								!shrink,
+								grid,
 								scale,
 								paddingX,
 								paddingY,
