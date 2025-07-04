@@ -100,6 +100,7 @@ public class MasterPacker {
 				settings.bleedIterations = 20;
 				settings.stripWhitespaceX = settings.stripWhitespaceY = true;
 				settings.square = bundle.isSquare();
+				settings.grid = bundle.isGrid();
 
 				String flatName = bundle.getAtlasName() != null
 						? bundle.isShaded() ? bundle.getAtlasName() + "_flat" : bundle.getAtlasName()
@@ -209,11 +210,11 @@ public class MasterPacker {
 			if(hasFlatTarget) {
 				String flatName = bundle.getAtlasName() != null
 						? bundle.isShaded()
-						? bundle.getAtlasName() + "_flat"
-						: bundle.getAtlasName()
+							? bundle.getAtlasName() + "_flat"
+							: bundle.getAtlasName()
 						: bundle.isShaded()
-						? "flat"
-						: outDir.getName();
+							? "flat"
+							: outDir.getName();
 
 				if(!new File(outDir, flatName + ".atlas").exists()) {
 					missingMessage(flatName + ".atlas", bundle);
