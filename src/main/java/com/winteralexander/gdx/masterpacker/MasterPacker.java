@@ -95,6 +95,12 @@ public class MasterPacker {
 				settings.filterMin = bundle.getMinFilter();
 				settings.filterMag = bundle.getMagFilter();
 				settings.maxWidth = settings.maxHeight = resolution.getAtlasMaxSize();
+
+				if(bundle.getMaxWidth() != -1)
+					settings.maxWidth = bundle.getMaxWidth();
+				if(bundle.getMaxHeight() != -1)
+					settings.maxHeight = bundle.getMaxHeight();
+
 				settings.pot = bundle.isSquare();
 				settings.useIndexes = false;
 				settings.bleedIterations = 20;

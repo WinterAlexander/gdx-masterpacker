@@ -46,6 +46,8 @@ public class BundleList {
 						String minFilterStr = getParamValue(parts, "--min-filter");
 						String magFilterStr = getParamValue(parts, "--mag-filter");
 						String atlasName = getParamValue(parts, "--atlas-name");
+						int maxHeight = tryParseInt(getParamValue(parts, "--max-width"), -1);
+						int maxWidth = tryParseInt(getParamValue(parts, "--max-height"), -1);
 
 						AssetResolution[] outRes;
 						if(outResStr == null)
@@ -75,6 +77,8 @@ public class BundleList {
 								scale,
 								paddingX,
 								paddingY,
+								maxWidth,
+								maxHeight,
 								minFilter,
 								magFilter,
 								atlasName,

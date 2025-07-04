@@ -18,6 +18,7 @@ public class AssetBundle {
 	private final boolean shaded, square, grid;
 	private final float baseScale;
 	private final int paddingX, paddingY;
+	private final int maxWidth, maxHeight;
 	private final Texture.TextureFilter minFilter;
 	private final Texture.TextureFilter magFilter;
 	private final String atlasName;
@@ -32,6 +33,8 @@ public class AssetBundle {
 					   float baseScale,
 					   int paddingX,
 					   int paddingY,
+					   int maxWidth,
+					   int maxHeight,
 					   Texture.TextureFilter minFilter,
 					   Texture.TextureFilter magFilter,
 					   String atlasName,
@@ -51,6 +54,8 @@ public class AssetBundle {
 		this.paddingY = paddingY;
 		this.minFilter = minFilter;
 		this.magFilter = magFilter;
+		this.maxWidth = maxWidth;
+		this.maxHeight = maxHeight;
 		this.atlasName = atlasName;
 		this.outRes = outRes;
 		this.outPath = outPath;
@@ -64,6 +69,8 @@ public class AssetBundle {
 					   float baseScale,
 					   int paddingX,
 					   int paddingY,
+					   int maxWidth,
+					   int maxHeight,
 					   Texture.TextureFilter minFilter,
 					   Texture.TextureFilter magFilter,
 					   String atlasName,
@@ -77,6 +84,8 @@ public class AssetBundle {
 				baseScale,
 				paddingX,
 				paddingY,
+				maxWidth,
+				maxHeight,
 				minFilter,
 				magFilter,
 				atlasName,
@@ -135,5 +144,13 @@ public class AssetBundle {
 
 	public int getPaddingY() {
 		return paddingY;
+	}
+
+	public int getMaxWidth() {
+		return maxWidth;
+	}
+
+	public int getMaxHeight() {
+		return maxHeight;
 	}
 }
