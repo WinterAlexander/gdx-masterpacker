@@ -26,7 +26,7 @@ import static com.winteralexander.gdx.utils.io.SerializationUtil.writeMap;
  * @author Alexander Winter
  */
 public class MasterPacker {
-	public static void main(String[] args) throws IOException {
+	public static void main(String... args) throws IOException {
 		File bundleFile = new File(firstNonNull(getParamValue(args, "--bundle-list", "-b"),
 				"bundles.bundlelist"));
 		File targetsFile = new File(firstNonNull(getParamValue(args, "--pack-list", "-p"),
@@ -38,6 +38,11 @@ public class MasterPacker {
 		File cacheFile = new File(cacheDir, "packer-" +
 				Hash.sha256(bundleFile.getAbsolutePath()).substring(0, 8) + ".cache");
 
+		File inputDir = new File(firstNonNull(getParamValue(args, "--input-dir", "-i"),
+				"client/assets/gfx_src"));
+		File outputDir = new File(firstNonNull(getParamValue(args, "--output-dir", "-o"),
+				"client/assets"));
+
 		ObjectMap<String, BundleCacheEntry> lastPacks = new ObjectMap<>();
 
 		if(cacheFile.exists() && !resetCache)
@@ -47,10 +52,7 @@ public class MasterPacker {
 		List<AssetBundle> bundles = BundleList.parseFile(bundleFile);
 		List<PackTarget> targets = PackingList.parseFile(targetsFile);
 
-		File baseDir = new File("client/assets");
-
 		for(AssetBundle bundle : bundles) {
-			File inputDir = new File(baseDir, "gfx_src");
 			ensureDirectory(inputDir);
 			long bundleLastModification = -1L;
 			int packTargetCount = 0;
@@ -66,13 +68,13 @@ public class MasterPacker {
 					&& lastPacks.containsKey(bundle.getBundleId())
 					&& lastPacks.get(bundle.getBundleId()).lastModification > bundleLastModification
 					&& lastPacks.get(bundle.getBundleId()).lastTargetCount == packTargetCount
-					&& !anyDestinationMissing(bundle, targets, baseDir, inputDir)) {
+					&& !anyDestinationMissing(bundle, targets, outputDir, inputDir)) {
 				continue;
 			}
 			System.out.println("Packing bundle " + bundle.getBundleId());
 
 			for(AssetResolution resolution : bundle.getOutRes()) {
-				File resDir = new File(baseDir, resolution.getDirectory());
+				File resDir = new File(outputDir, resolution.getDirectory());
 
 				File outDir = new File(resDir, bundle.getOutPath());
 				File tmpFlat = new File(outDir, "tmp_f");
@@ -160,6 +162,7 @@ public class MasterPacker {
 					packTargetCount));
 		}
 
+		ensureDirectory(cacheDir);
 		try(OutputStream out = new BufferedOutputStream(new FileOutputStream(cacheFile))) {
 			writeMap(out, lastPacks);
 		}
