@@ -1,2 +1,3 @@
 directory textures 1 --extend 128
 directory textures 2 --extend 128
+atlas atlases/log.atlas flat 3 --extend 40

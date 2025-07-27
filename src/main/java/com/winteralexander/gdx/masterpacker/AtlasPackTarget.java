@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import static com.winteralexander.gdx.masterpacker.Downscalator.downscaleInPlace;
+import static com.winteralexander.gdx.masterpacker.TexturePackTarget.extendInPlace;
 import static com.winteralexander.gdx.utils.Validation.ensureNotNull;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
@@ -23,12 +24,17 @@ public class AtlasPackTarget implements PackTarget {
 	private final String bundleId;
 	private final float scale;
 	private final boolean noDownscale;
+	private final int extendLeft, extendRight, extendTop, extendBottom;
 
 	public AtlasPackTarget(String path,
 	                       TextureType textureType,
 	                       String bundleId,
 	                       float scale,
-	                       boolean noDownscale) {
+	                       boolean noDownscale,
+	                       int extendLeft,
+	                       int extendRight,
+	                       int extendTop,
+	                       int extendBottom) {
 		ensureNotNull(path, "path");
 		ensureNotNull(textureType, "textureType");
 		this.path = path;
@@ -36,6 +42,10 @@ public class AtlasPackTarget implements PackTarget {
 		this.bundleId = bundleId;
 		this.scale = scale;
 		this.noDownscale = noDownscale;
+		this.extendLeft = extendLeft;
+		this.extendRight = extendRight;
+		this.extendTop = extendTop;
+		this.extendBottom = extendBottom;
 	}
 
 	@Override
@@ -72,6 +82,7 @@ public class AtlasPackTarget implements PackTarget {
 
 		File dest = new File(outDir, regionName + ".png");
 		Files.copy(new File(baseDir, png).toPath(), dest.toPath(), REPLACE_EXISTING);
+		extendInPlace(dest, extendLeft, extendRight, extendTop, extendBottom);
 		downscaleInPlace(dest, bundle.getBaseScale() *
 				scale * (noDownscale ? 1f : resolution.getScale()));
 	}
@@ -152,7 +163,24 @@ public class AtlasPackTarget implements PackTarget {
 
 	@Override
 	public boolean matches(AssetBundle bundle, TextureType textureType, File baseDir, String name) {
-		return false;
+		if(textureType != this.textureType)
+			return false;
+
+		String relPath = path;
+		int curBest = 0;
+
+		for(String basePath : bundle.getBasePaths())
+			if(path.startsWith(basePath) && basePath.length() > curBest) {
+				relPath = path.replaceFirst(Pattern.quote(basePath), "");
+				curBest = basePath.length();
+			}
+
+		while(relPath.startsWith("/"))
+			relPath = relPath.substring(1);
+
+		return relPath.replace('/', '_')
+				.replace(".atlas", "")
+				.equals(name);
 	}
 
 	@Override
@@ -162,22 +190,22 @@ public class AtlasPackTarget implements PackTarget {
 
 	@Override
 	public int getExtendLeft() {
-		return 0;
+		return extendLeft;
 	}
 
 	@Override
 	public int getExtendRight() {
-		return 0;
+		return extendRight;
 	}
 
 	@Override
 	public int getExtendTop() {
-		return 0;
+		return extendTop;
 	}
 
 	@Override
 	public int getExtendBottom() {
-		return 0;
+		return extendBottom;
 	}
 
 	@Override

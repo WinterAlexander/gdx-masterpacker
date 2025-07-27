@@ -69,7 +69,11 @@ public class PackingList {
 									TextureType.valueOf(paramlessParts[2].toUpperCase(Locale.ROOT)),
 									paramlessParts[3],
 									scale,
-									noDownscale);
+									noDownscale,
+									extendLeft,
+									extendRight,
+									extendTop,
+									extendBottom);
 						else if(paramlessParts[0].equalsIgnoreCase("directory"))
 							return new DirectoryPackTarget(recursionMode,
 									paramlessParts[1],

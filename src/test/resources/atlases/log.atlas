@@ -1,0 +1,26 @@
+log.png
+size: 196,349
+format: RGBA8888
+filter: MipMapLinearLinear,MipMapLinearLinear
+repeat: none
+tip_top
+  rotate: false
+  xy: 0, 0
+  size: 196, 40
+  orig: 196, 40
+  offset: 0, 0
+  index: -1
+middle
+  rotate: false
+  xy: 0, 40
+  size: 196, 269
+  orig: 196, 269
+  offset: 0, 0
+  index: -1
+tip_bottom
+  rotate: false
+  xy: 0, 309
+  size: 196, 40
+  orig: 196, 40
+  offset: 0, 0
+  index: -1
